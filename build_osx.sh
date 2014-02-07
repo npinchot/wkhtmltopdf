@@ -151,7 +151,7 @@ cd -
 # create release?
 if [ "$CREATE_RELEASE" -eq "1" ]; then
     echo "Creating release"
-    RELEASE_VERSION=`cat VERSION`
+    RELEASE_VERSION=`cat VERSION | sed 's/[^0-9\.]//g'`
     if [ -d ".git" ]; then
         RELEASE_VERSION="${RELEASE_VERSION}-`git rev-parse --short HEAD`"
     fi
