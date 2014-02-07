@@ -150,6 +150,7 @@ cd -
 
 # create release?
 if [ "$CREATE_RELEASE" -eq "1" ]; then
+    echo "Creating release"
     RELEASE_VERSION=`cat VERSION`
     if [ -d ".git" ]; then
         RELEASE_VERSION="${RELEASE_VERSION}-`git rev-parse --short HEAD`"
@@ -159,5 +160,8 @@ if [ "$CREATE_RELEASE" -eq "1" ]; then
     # install
     INSTALL_ROOT=${INSTALL_ROOT} make install
     # build tarball
-    cd "${INSTALL_ROOT}" && tar -czvf "${WKHTMLTOPDF_DIR}/${BUILD_DIR_BASE}/wkhtmltox-${PLATFORM_NAME}-${ARCH}-${RELEASE_VERSION}.tar.gz" * || exit 1
+    RELEASE_TARBALL="${BUILD_DIR_BASE}/wkhtmltox-${PLATFORM_NAME}-${ARCH}-${RELEASE_VERSION}.tar.xz"
+    cd "${INSTALL_ROOT}" && tar -cJvf "${WKHTMLTOPDF_DIR}/${RELEASE_TARBALL}" * || exit 1
+    echo "Release tarball created: ${RELEASE_TARBALL}"
 fi
+
